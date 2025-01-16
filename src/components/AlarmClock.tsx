@@ -5,8 +5,8 @@ import type { AlarmSettings, WeatherCondition, SurfCondition, SavedLocation } fr
 import LocationPicker from './LocationPicker';
 import ConditionsMap from './ConditionsMap';
 
-// Update audio instance with new sound file
-const alarmSound = new Audio('/the-surfers-misirlou-128-ytshorts.savetube.me.mp3');
+// Update audio instance with new sound file and start time
+const alarmSound = new Audio('/surfaris-wipeout-stereo.mp3');
 alarmSound.loop = true;
 
 export default function AlarmClock() {
@@ -70,7 +70,7 @@ export default function AlarmClock() {
 
   const triggerAlarm = (message: string) => {
     setIsAlarmRinging(true);
-    alarmSound.currentTime = 2; // Start at 2 seconds
+    alarmSound.currentTime = 79; // Start at 79 seconds
     alarmSound.play();
     
     // Show browser notification if permitted
@@ -85,7 +85,7 @@ export default function AlarmClock() {
   const stopAlarm = () => {
     setIsAlarmRinging(false);
     alarmSound.pause();
-    alarmSound.currentTime = 2; // Reset to 2 seconds when stopped
+    alarmSound.currentTime = 79; // Reset to 79 seconds when stopped
   };
 
   // Request notification permission on component mount
