@@ -1,13 +1,13 @@
 export interface WeatherCondition {
   temp: number;
-  description: string;
   windSpeed: number;
+  windDirection: number; // degrees
 }
 
 export interface SurfCondition {
   waveHeight: number;
   wavePeriod: number;
-  windDirection: string;
+  swellDirection: number; // degrees
 }
 
 export interface AlarmSettings {
@@ -26,6 +26,9 @@ export interface Location {
   lng: number;
 }
 
-export interface SavedLocation extends Location {
+export interface SavedLocation {
   id: string;
+  name: string;
+  lat: number;
+  lng: number;
 }
