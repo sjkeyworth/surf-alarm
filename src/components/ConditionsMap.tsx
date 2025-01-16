@@ -10,16 +10,12 @@ interface ConditionsMapProps {
 
 const libraries: ("places" | "geometry" | "drawing" | "visualization")[] = [];
 
-const ConditionsMap: React.FC<ConditionsMapProps> = ({ lat, lng, windDirection, swellDirection }) => {
+const ConditionsMap: React.FC<ConditionsMapProps> = ({ lat, lng, windDirection }) => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_KEY || '',
     libraries
   });
-
-  // Add debug logging
-  console.log('Wind direction:', windDirection);
-  console.log('Swell direction:', swellDirection);
 
   const mapOptions = {
     disableDefaultUI: true,
@@ -34,29 +30,18 @@ const ConditionsMap: React.FC<ConditionsMapProps> = ({ lat, lng, windDirection, 
     ]
   };
 
-  // Create arrow icons
-  const createArrowIcon = (color: string, rotation: number, isWind: boolean = true) => ({
-    path: isWind ? google.maps.SymbolPath.FORWARD_CLOSED_ARROW : google.maps.SymbolPath.CIRCLE,
+  // Create wind arrow icon
+  const createArrowIcon = (color: string, rotation: number) => ({
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
     fillColor: color,
-    fillOpacity: isWind ? 1.0 : 0.7,
-    strokeWeight: isWind ? 4 : 2,
+    fillOpacity: 1.0,
+    strokeWeight: 4,
     strokeColor: color,
     rotation: rotation - 180,
-    scale: isWind ? 16 : 30,
+    scale: 16,
   });
 
-  // Create swell arrow icon
-  const createSwellArrow = (rotation: number) => ({
-    path: 'M -1,0 A 1,1 0 0 1 1,0 A 1,1 0 0 1 -1,0 M 0,-0.5 L 0.5,0 L 0,0.5 L -0.5,0 Z',
-    fillColor: 'white',
-    fillOpacity: 1.0,
-    strokeWeight: 2,
-    strokeColor: 'white',
-    rotation: rotation - 180,
-    scale: 20,
-  });
-
-  // Calculate marker positions
+  // Calculate marker position
   const windOffset = 0.0015;
   const windPosition = { lat: lat + windOffset, lng: lng + windOffset };
 
@@ -80,13 +65,6 @@ const ConditionsMap: React.FC<ConditionsMapProps> = ({ lat, lng, windDirection, 
         position={windPosition}
         icon={createArrowIcon('#3b82f6', windDirection)}
         title="Wind Direction"
-      />
-
-      {/* Swell direction marker */}
-      <Marker
-        position={{ lat, lng }}
-        icon={createSwellArrow(swellDirection)}
-        title="Swell Direction"
       />
     </GoogleMap>
   );
